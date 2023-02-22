@@ -15,7 +15,7 @@ out/%.js: src/%.ts node_modules/ out/syntaxes
 clean:
 	rm -rf out $(VSIX)
 
-dist-clean: clean
+distclean: clean
 	rm -rf node_modules
 
 build: out/extension.js
@@ -39,7 +39,14 @@ test: out/%.js
 out/syntaxes:
 	mkdir -p $@
 
-out/syntaxes/%.json: syntaxes/%.tmlanguage.yaml out/syntaxes
+out/syntaxes/%.json: syntaxes/%.tmlanguage.yaml out/syntaxes node_modules/
 	npx js-yaml $< > $@
 
 syntax: out/syntaxes/tcl.json
+
+login:
+	echo "fetch your PAT for login"
+	npx vsce login
+
+publish:
+	npx vsce publish
